@@ -1,10 +1,12 @@
         package com.projetODC.Projet.Service;
 
+        import com.projetODC.Projet.Exception.Message;
         import com.projetODC.Projet.Exception.PaysNotFoundException;
         import com.projetODC.Projet.Model.Pays;
         import com.projetODC.Projet.Model.Regions;
         import com.projetODC.Projet.Repo.PaysRepository;
         import com.projetODC.Projet.Repo.RegionsRepository;
+        import org.springframework.http.HttpStatus;
         import org.springframework.stereotype.Service;
 
         import java.util.List;
@@ -21,9 +23,17 @@
             this.regionsRepository = regionsRepository;
         }
 //Ajouter des Regions
-        public Regions ajouterRegions(Regions regions)
+        public Object ajouterRegions(Regions regions)
         {
-            return regionsRepository.save(regions);
+            try {
+                return regionsRepository.save(regions);
+            }
+            catch (Exception e)
+            {
+                return Message.ErrorResponse("Regions non ajoutée", HttpStatus.OK, null);
+            }
+
+
         }
 
 

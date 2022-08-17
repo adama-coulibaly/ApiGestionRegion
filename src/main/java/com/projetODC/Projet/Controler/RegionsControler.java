@@ -30,7 +30,7 @@
             @ApiOperation(value = "Crée une Region")
             @PostMapping(path ="/creer", name = "create")
             @ResponseStatus(HttpStatus.CREATED)
-            public Regions add(@RequestBody Regions regions)
+            public Object add(Regions regions)
             {
                 return this.regionsService.ajouterRegions(regions);
             }

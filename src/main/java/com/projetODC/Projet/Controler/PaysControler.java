@@ -28,7 +28,7 @@ public class PaysControler {
     @ApiOperation(value = "La fonction d'ajout des pays")
     @PostMapping(path ="/creer", name = "create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Pays add (@RequestBody Pays pays)
+    public Pays add (Pays pays)
     {
         return this.paysService.ajouterPays(pays);
     }
