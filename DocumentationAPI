@@ -1,0 +1,21 @@
+---------------------- Apigestionregions ----------------------------
+
+Les fonctionnalitées principales de l'API:
+
+1- Gestions d'un PAYS
+	-La Méthode POST: Elle vous permet de faire un ajout de pays;
+	-La Méthode GET: Permet de lister les pays;
+	-La Méthode PUT: Permet de modifier un pays;
+	-La Méthode DELETE: Permet de supprimer un pays;
+
+2- Gestions d'une REGIONS
+	-La Méthode POST: Elle vous permet de faire un ajout de region;
+	-La Méthode GET: Permet de lister les tegions;
+	-La Méthode PUT: Permet de modifier une region;
+	-La Méthode DELETE: Permet de supprimer une regions;
+
+3- Gestions d'HABITANTS
+	-La Méthode POST: Elle vous permet de faire un ajout d'habitant';
+	-La Méthode GET: Permet de lister les habitants;
+	-La Méthode PUT: Permet de modifier un habitant;
+	-La Méthode DELETE: Permet de supprimer un habitant;
