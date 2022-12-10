@@ -17,7 +17,7 @@ public class Pays {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pays;
-    private String nom_pays;
+    private String nompays;
 
    // @JsonIgnore // Il nous permet d'optimiser notre base de données. Donc de ne pas voir les relations non utilisées
   //  @OneToMany(mappedBy = "pays")

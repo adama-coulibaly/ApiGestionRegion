@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegionsRepository extends JpaRepository<Regions, Long> {
 
-    @Query(value = "SELECT regions.nom_regions," +
+    @Query(value = "SELECT regions.nomregions," +
             "regions.superficie_region," +
             " regions.activiter_region," +
             "habitants.annee, habitants.nbre_population " +
@@ -17,7 +17,7 @@ public interface RegionsRepository extends JpaRepository<Regions, Long> {
             "WHERE  habitants.regions_id_regions = regions.id_regions;", nativeQuery = true)
     Iterable<Object[]> mesRegions();
 
-    @Query(value = "SELECT pays.nom_pays,regions.nom_regions," +
+    @Query(value = "SELECT pays.nompays,regions.nomregions," +
             "regions.superficie_region, regions.activiter_region," +
             "habitants.annee, habitants.nbre_population FROM `pays`,`habitants`,`regions` " +
             "WHERE  habitants.regions_id_regions = regions.id_regions " +

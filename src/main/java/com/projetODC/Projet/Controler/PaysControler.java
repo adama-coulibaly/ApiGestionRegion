@@ -1,5 +1,7 @@
 package com.projetODC.Projet.Controler;
 
+import com.projetODC.Projet.Exception.Message;
+import com.projetODC.Projet.Message.ReponseMessage;
 import com.projetODC.Projet.Model.Pays;
 import com.projetODC.Projet.Service.PaysService;
 import io.swagger.annotations.Api;
@@ -28,9 +30,10 @@ public class PaysControler {
     @ApiOperation(value = "La fonction d'ajout des pays")
     @PostMapping(path ="/creer", name = "create")
     @ResponseStatus(HttpStatus.CREATED)
-    public Pays add (Pays pays)
+    public ReponseMessage add (Pays pays)
     {
-        return this.paysService.ajouterPays(pays);
+        return paysService.ajouterPays(pays);
+
     }
 
 
@@ -48,7 +51,7 @@ public class PaysControler {
     @ApiOperation(value = "La fonction permettant de prendre un seul pays")
     @GetMapping(path ="/unPays/{id_pays}", name = "lire")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Pays> lire(@PathVariable Long id_pays)
+    public ReponseMessage lire(@PathVariable Long id_pays)
     {
         return  this.paysService.afficherUn(id_pays);
     }
@@ -57,7 +60,7 @@ public class PaysControler {
     @ApiOperation(value = "Modification des pays")
     @PutMapping(path ="/modifier/{id_pays}", name = "modifier")
     @ResponseStatus(HttpStatus.OK)
-    public Pays modifier(@RequestBody Pays pays, @PathVariable Long id_pays)
+    public ReponseMessage modifier(@RequestBody Pays pays, @PathVariable Long id_pays)
     {
 
         return  this.paysService.modifierPays(pays, id_pays);

@@ -1,6 +1,8 @@
 package com.projetODC.Projet.Service;
 
+import com.projetODC.Projet.Exception.Message;
 import com.projetODC.Projet.Exception.PaysNotFoundException;
+import com.projetODC.Projet.Message.ReponseMessage;
 import com.projetODC.Projet.Model.Pays;
 import com.projetODC.Projet.Model.Regions;
 import com.projetODC.Projet.Repo.PaysRepository;
@@ -21,14 +23,21 @@ public class PaysService {
     {
         this.paysRepository = paysRepository;
     }
-    // ----------------------------Ajouter un pays-----------------------------------
+    // ----------------------------Ajouter un pays-----------------------------------OK
 
-    public Pays  ajouterPays(Pays pays)
-    {
-        return this.paysRepository.save(pays);
+    public ReponseMessage ajouterPays(Pays pays) {
+        if (paysRepository.findByNompays(pays.getNompays()) == null) {
+            this.paysRepository.save(pays);
+            ReponseMessage contenu = new ReponseMessage("Pays ajouté avec succes", true);
+            return contenu;
+        } else {
+            ReponseMessage contenu = new ReponseMessage("Pays existe déja", true);
+            return contenu;
+        }
+
     }
 
-// ----------------------------Aficher une liste de pays-----------------------------------
+// ----------------------------Aficher une liste de pays-----------------------------------OK
     public List<Pays> afficheTout()
     {
         return this.paysRepository.findAll();
@@ -36,38 +45,59 @@ public class PaysService {
 
 // ----------------------------Aficher un pays-----------------------------------
 
-    public Optional<Pays> afficherUn(Long id_pays)
+    public ReponseMessage afficherUn(Long id_pays)
     {
         Optional<Pays> pays = this.paysRepository.findById(id_pays);
         if (!pays.isPresent()) {
-            throw new PaysNotFoundException(String.format("Le pays avec id %s n'est pas trouvé"+id_pays));
+            ReponseMessage message = new ReponseMessage("Ce pays n'est pas trouvé !", false);
+            return message;
           }
+        else {
+             this.paysRepository.findById(id_pays);
+             Optional<Pays> a = this.paysRepository.findById(id_pays);
 
-        return this.paysRepository.findById(id_pays);
-    }
-    // ----------------------------Modifier un pays-----------------------------------
-    public Pays modifierPays(Pays pays, Long id_pays)
-    {
-        Optional<Pays> paysExistePays = this.paysRepository.findById(id_pays);
-        if (!paysExistePays.isPresent())
-        {
-            throw new PaysNotFoundException(String.format("Le pays avec id %s n'est pas trouvé"+id_pays));
+            ReponseMessage message = new ReponseMessage( a.get().getNompays(), true);
+            return message;
         }
 
-        return this.paysRepository.save(pays);
+
+    }
+    // ----------------------------Modifier un pays-----------------------------------OK
+    public ReponseMessage modifierPays(Pays pays, Long id_pays)
+    {
+        //ICI ON VERIFIE SI LE PAYS EXISTE
+        Optional<Pays> paysExistePays = this.paysRepository.findById(id_pays);
+        if (!paysExistePays.isPresent()) {
+            ReponseMessage message = new ReponseMessage("Pays non trouvé !", true);
+            return message;
+        }
+        else {
+            Pays paysT = paysRepository.findById(id_pays).get();
+            paysT.setNompays(pays.getNompays());
+            paysRepository.saveAndFlush(paysT);
+            ReponseMessage message = new ReponseMessage("Pays modifié avec success", true);
+            return message;
+        }
+
     }
 
     // ----------------------------Supprimer un pays-----------------------------------
 
-    public void supprimerPays(Long id_pays)
+    public ReponseMessage supprimerPays(Long id_pays)
     {
         Optional<Pays> pays = this.paysRepository.findById(id_pays);
         if (!pays.isPresent())
         {
-            throw new PaysNotFoundException(String.format("Le pays avec id %s n'est pas trouvé"+id_pays));
+            ReponseMessage message = new ReponseMessage("Ce pays n'est pas trouvé !", false);
+            return message;
+        }
+        else{
+            this.paysRepository.delete(pays.get());
+            ReponseMessage message = new ReponseMessage("Suppression reussie avec succès !", true);
+            return message;
         }
 
-         this.paysRepository.delete(pays.get());
+
     }
 
 }

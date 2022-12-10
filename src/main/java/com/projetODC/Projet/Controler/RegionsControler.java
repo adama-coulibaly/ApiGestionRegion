@@ -1,5 +1,6 @@
         package com.projetODC.Projet.Controler;
 
+        import com.projetODC.Projet.Message.ReponseMessage;
         import com.projetODC.Projet.Model.Pays;
         import com.projetODC.Projet.Model.Regions;
         import com.projetODC.Projet.Repo.RegionsRepository;
@@ -30,7 +31,7 @@
             @ApiOperation(value = "Crée une Region")
             @PostMapping(path ="/creer", name = "create")
             @ResponseStatus(HttpStatus.CREATED)
-            public Object add(Regions regions)
+            public ReponseMessage add(Regions regions)
             {
                 return this.regionsService.ajouterRegions(regions);
             }
@@ -51,7 +52,7 @@
             @ApiOperation(value = "Afficher une seule regions")
             @GetMapping(path ="/uneRegion/{id_regions}", name = "lire")
             @ResponseStatus(HttpStatus.OK)
-        public Optional<Regions> lire(@PathVariable Long id_regions)
+        public ReponseMessage lire(@PathVariable Long id_regions)
         {
             return  this.regionsService.afficherUneRegion(id_regions);
         }
@@ -59,7 +60,7 @@
 @ApiOperation(value = "La fonction permettant de modifier une region")
             @PutMapping(path ="/modifier/{id_regions}", name = "modifier")
         @ResponseStatus(HttpStatus.OK)
-        public Regions modifier(@RequestBody Regions regions, @PathVariable Long id_regions)
+        public ReponseMessage modifier(@RequestBody Regions regions, @PathVariable Long id_regions)
          {
             return  this.regionsService.modifierRegions(regions, id_regions);
          }

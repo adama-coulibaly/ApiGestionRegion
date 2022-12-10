@@ -19,10 +19,10 @@ public class Regions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id_regions;
-    private String nom_regions;
+    private String nomregions;
 
     @Column(unique = true)
-    private String code_region;
+    private String coderegion;
     private String activiter_region;
     private String superficie_region;
     private String langue_m_region;
