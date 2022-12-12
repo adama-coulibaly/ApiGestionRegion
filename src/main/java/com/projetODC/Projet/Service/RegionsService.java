@@ -1,13 +1,11 @@
         package com.projetODC.Projet.Service;
 
-        import com.projetODC.Projet.Exception.Message;
         import com.projetODC.Projet.Exception.PaysNotFoundException;
         import com.projetODC.Projet.Message.ReponseMessage;
         import com.projetODC.Projet.Model.Pays;
         import com.projetODC.Projet.Model.Regions;
         import com.projetODC.Projet.Repo.PaysRepository;
         import com.projetODC.Projet.Repo.RegionsRepository;
-        import org.springframework.http.HttpStatus;
         import org.springframework.stereotype.Service;
 
         import java.util.List;
@@ -26,10 +24,12 @@
 //Ajouter des Regions
         public ReponseMessage ajouterRegions(Regions regions)
         {
+
             try {
-                 regionsRepository.save(regions);
-                 ReponseMessage message = new ReponseMessage("Région ajoutée avec succès",true);
-                 return message;
+
+                regionsRepository.save(regions);
+                ReponseMessage message = new ReponseMessage("Région ajoutée avec succès",true);
+                return message;
             }
             catch (Exception e)
             {
@@ -46,18 +46,21 @@
             }
 
 // Afficher une seule region
-            public ReponseMessage afficherUneRegion(Long id_regions)
+            public Optional<Regions> afficherUneRegion(Long id_regions)
             {
                 Optional<Regions> regions = this.regionsRepository.findById(id_regions);
 
                 if (!regions.isPresent()) {
-                    ReponseMessage message = new ReponseMessage("Cette région n'est pas trouvée !", false);
-                    return message;
+                    //ReponseMessage message = new ReponseMessage("Cette région n'est pas trouvée !", false);
+
+                    throw new PaysNotFoundException(String.format("Cette région n'est pas trouvée !"));
+
                 }
                 else {
-                    Regions RG =  this.regionsRepository.findById(id_regions).get();
-                    ReponseMessage message = new ReponseMessage(" Nom: "+RG.getNomregions()+" Pays: "+RG.getPays().getNompays()+" Activité "+RG.getActiviter_region()+" Code région: "+RG.getCoderegion()+" Langue: "+RG.getLangue_m_region()+" Superficie: "+RG.getSuperficie_region(), true);
-                    return message;
+                    return this.regionsRepository.findById(id_regions);
+
+                    //ReponseMessage message = new ReponseMessage(" Nom: "+RG.getNomregions()+" Pays: "+RG.getPays().getNompays()+" Activité "+RG.getActiviter_region()+" Code région: "+RG.getCoderegion()+" Langue: "+RG.getLangue_m_region()+" Superficie: "+RG.getSuperficie_region(), true);
+
                 }
 
             }
@@ -77,6 +80,7 @@
                     regions1.setSuperficie_region(regions.getSuperficie_region());
                     regions1.setCoderegion(regions.getCoderegion());
                     regions1.setNomregions(regions.getNomregions());
+
                     regions1.setPays(regions.getPays());
                      this.regionsRepository.save(regions1);
                     ReponseMessage message = new ReponseMessage("Région modifiée avec succès !", true);
@@ -84,6 +88,38 @@
                 }
 
             }
+
+
+            public ReponseMessage modificationR(Regions regions, Long id_regions){
+                Optional<Regions> regionExistePays = this.regionsRepository.findById(id_regions);
+                if (!regionExistePays.isPresent())
+                {
+                    ReponseMessage message = new ReponseMessage("Cette région n'est pas trouvée !", false);
+                    return message;
+                }
+                else{
+                    return regionsRepository.findById(id_regions).map(
+                            regions1 -> {
+                                regions1.setActiviter_region(regions.getActiviter_region());
+                                regions1.setLangue_m_region(regions.getLangue_m_region());
+                                regions1.setSuperficie_region(regions.getSuperficie_region());
+                                regions1.setCoderegion(regions.getCoderegion());
+                                regions1.setNomregions(regions.getNomregions());
+                                regions1.setPays(regions.getPays());
+                                this.regionsRepository.save(regions1);
+                                ReponseMessage message = new ReponseMessage("Région modifiée avec succès !",true);
+                                return message;
+                            }
+                    ).orElseThrow(() -> new RuntimeException("Désole, région non trouvée"));
+                }
+            }
+
+
+
+
+
+
+
 
 //Supprimer une region
             public ReponseMessage supprimer(Long id_region)

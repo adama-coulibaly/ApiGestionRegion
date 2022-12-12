@@ -52,7 +52,7 @@
             @ApiOperation(value = "Afficher une seule regions")
             @GetMapping(path ="/uneRegion/{id_regions}", name = "lire")
             @ResponseStatus(HttpStatus.OK)
-        public ReponseMessage lire(@PathVariable Long id_regions)
+        public  Optional<Regions> lire(@PathVariable Long id_regions)
         {
             return  this.regionsService.afficherUneRegion(id_regions);
         }
@@ -62,7 +62,7 @@
         @ResponseStatus(HttpStatus.OK)
         public ReponseMessage modifier(@RequestBody Regions regions, @PathVariable Long id_regions)
          {
-            return  this.regionsService.modifierRegions(regions, id_regions);
+            return  this.regionsService.modificationR(regions, id_regions);
          }
 //Classe permettant de supprimer une region
 @ApiOperation(value = "La fonction permettant de supprimer une region")
@@ -75,7 +75,7 @@
 
     // La liste des regions sans pays
 
-         @ApiOperation(value = "Afficher une region sans PAYS")
+         @ApiOperation(value = "Afficher des regions sans PAYS")
          @GetMapping(path="/regionssansPays")
          public Iterable<Object[]> mesRegions() {
              return this.regionsService.mesRegions();
@@ -89,15 +89,7 @@
             public Iterable<Object[]> mesRegionsAvecPays() {
                 return this.regionsService.mesRegionsAvecPays();
             }
-/*
-            // Generale
-            @ApiOperation(value = "Crée une Region en generale")
-            @PostMapping(path ="/ajouter", name = "create")
-            public Regions Generale(Regions regions) {
-                return this.regionsService.Generale(regions);
-            }
 
- */
 
 
          }

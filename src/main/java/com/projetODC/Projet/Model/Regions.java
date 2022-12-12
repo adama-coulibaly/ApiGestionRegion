@@ -26,6 +26,7 @@ public class Regions {
     private String activiter_region;
     private String superficie_region;
     private String langue_m_region;
+    private boolean etat = true;
 
     @JsonIgnore
     @ManyToOne
